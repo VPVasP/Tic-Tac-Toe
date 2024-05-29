@@ -8,31 +8,52 @@ public class ButtonController : MonoBehaviour
     public int id;
     private Button button;
     public bool isFree;
+
     private void Start()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(ClickedkOnXButton);
+        button.onClick.AddListener(PlayerClick);
         isFree = true;
     }
-    public void ClickedkOnXButton()
+
+    private void PlayerClick()
     {
-        if (GameController.instance.isXbutton &&isFree)
+        if (isFree)
         {
-            Debug.Log(id);
-            button.interactable = false;
-            button.image.sprite = GameController.instance.xIcon;
-            isFree = false;
+            if (GameController.instance.isXbutton)
+            {
+                PlayerMove(GameController.instance.xIcon);
+                GameController.instance.isXbutton = false; 
+                GameController.instance.is0Button = true;
+                GameController.instance.AITurn();
+            }
+            else if (GameController.instance.is0Button)
+            {
+                PlayerMove(GameController.instance.oIcon);
+                GameController.instance.is0Button = false;  
+                GameController.instance.isXbutton = true;
+                GameController.instance.AITurn();
+            }
         }
     }
-    public void ClickedkOnOButton()
+
+    public void PlayerMove(Sprite icon)
     {
-        if (GameController.instance.is0Button&&isFree)
+        Debug.Log(id);
+        button.image.sprite = icon;
+        button.interactable = false;
+        isFree = false;
+        GameController.instance.buttons.Remove(this.gameObject);
+    }
+
+    public void AIMove(Sprite icon)
+    {
+        if (isFree)
         {
-            Debug.Log(id);
+            button.image.sprite = icon;
             button.interactable = false;
-            button.image.sprite = GameController.instance.oIcon;
             isFree = false;
+            GameController.instance.buttons.Remove(this.gameObject);
         }
     }
 }
- 
