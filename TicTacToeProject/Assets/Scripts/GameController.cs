@@ -30,6 +30,10 @@ public class GameController : MonoBehaviour
     {
         xButton.onClick.AddListener(XButton);
         oButton.onClick.AddListener(OButton);
+        foreach (var button in buttons)
+        {
+            button.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        }
     }
 
     public void XButton()
@@ -60,6 +64,7 @@ public class GameController : MonoBehaviour
             GameObject randomButton = buttons[randomIndex];
             ButtonController buttonController = randomButton.GetComponent<ButtonController>();
             Debug.Log("AI Played");
+            randomButton.GetComponent<Image>().color = new Color(1, 1, 1, 1);
             if (buttonController != null && buttonController.isFree)
             {
                 if (isXbutton) 

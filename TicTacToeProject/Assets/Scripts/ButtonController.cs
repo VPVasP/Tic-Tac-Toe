@@ -21,6 +21,7 @@ public class ButtonController : MonoBehaviour
         {
             if (GameController.instance.isXbutton)
             {
+                button.GetComponent<Image>().color = new Color(1, 1, 1, 1);
                 PlayerMove(GameController.instance.xIcon);
                 GameController.instance.isXbutton = true; 
                 GameController.instance.is0Button = false;
@@ -29,6 +30,7 @@ public class ButtonController : MonoBehaviour
             }
             else if (GameController.instance.is0Button)
             {
+                button.GetComponent<Image>().color = new Color(1, 1, 1, 1);
                 PlayerMove(GameController.instance.oIcon);
                 GameController.instance.is0Button = true;  
                 GameController.instance.isXbutton = false;
