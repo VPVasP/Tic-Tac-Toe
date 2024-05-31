@@ -33,7 +33,7 @@ public class ButtonController : MonoBehaviour
             }
             else if (GameController.instance.is0Button)
             {
-              //  GameController.instance.ids.Add(id);
+               GameController.instance.ids.Add(id);
                 button.GetComponent<Image>().color = new Color(1, 1, 1, 1);
                 PlayerMove(GameController.instance.oIcon);
                 GameController.instance.is0Button = true;  

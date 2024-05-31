@@ -4,7 +4,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-    [SerializeField] private GameObject gameView;
+    [SerializeField] private GameObject gameView, eraseDataButton;
     [SerializeField] private TextMeshProUGUI chooseLetterText,playerScoreText,aiScoreText;
     public TextMeshProUGUI endText;
     private void Awake()
@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     }
     public void EnableGameView()
     {
+        eraseDataButton.gameObject.SetActive(false);
         chooseLetterText.gameObject.SetActive(false);
         gameView.SetActive(true);
     }

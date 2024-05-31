@@ -27,6 +27,7 @@ public class PlayerPrefsManager : MonoBehaviour
         PlayerPrefs.SetInt(AIScoreKey, GameManager.instance.AIScore);
         PlayerPrefs.Save();
     }
+ 
     public void LoadData()
     {
         if (PlayerPrefs.HasKey(PlayerScoreKey))
@@ -38,5 +39,9 @@ public class PlayerPrefsManager : MonoBehaviour
         {
             GameManager.instance.AIScore = PlayerPrefs.GetInt(AIScoreKey);
         }
+    }
+    public void EraseData()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }

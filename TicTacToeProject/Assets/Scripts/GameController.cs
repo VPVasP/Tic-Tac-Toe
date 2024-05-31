@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -81,6 +82,7 @@ public class GameController : MonoBehaviour
                 UIManager.instance.UpdatePlayerScoreUI();
                 UIManager.instance.UpdateAIScoreUI();
                 PlayerPrefsManager.instance.SaveData();
+                Invoke("ReloadScene", 2f);
             }
         }
     }
@@ -121,15 +123,17 @@ public class GameController : MonoBehaviour
         List<int[]> winningSequencesPlayer = new List<int[]>
     {
         new int[] { 0, 1, 2 },
+        new int[] { 1, 4, 7 },
+        new int[] { 7, 4, 1 },
         new int[] { 0, 3, 6 },
         new int[] { 0, 4, 8 },
         new int[] { 2, 5, 8 },
         new int[] { 6, 4, 2},
         new int[] { 8, 4, 0 },
         new int[] {3, 4, 5},
-        new int[] {8,7,6},
+        new int[] {8, 7, 6},
         new int[] {5, 4, 3},
-        new int[] {6,7,8}
+        new int[] {6, 7, 8}
     };
 
       
@@ -155,8 +159,10 @@ public class GameController : MonoBehaviour
                 UIManager.instance.endText.text = "PLAYER WON";
                 GameManager.instance.IncreasePlayerScore(5);
                 UIManager.instance.UpdatePlayerScoreUI();
+                UIManager.instance.UpdateAIScoreUI();
                 GameManager.instance.IncreaseAIScore(0);
                 PlayerPrefsManager.instance.SaveData();
+                Invoke("ReloadScene", 2f);
                 return;
             }
         }
@@ -166,16 +172,18 @@ public void CheckWinningConditionsAI()
 {
         List<int[]> winningSequencesAI = new List<int[]>
     {
-          new int[] { 0, 1, 2 },
+        new int[] { 0, 1, 2 },
+        new int[] { 1, 4, 7 },
+        new int[] { 7, 4, 1 },
         new int[] { 0, 3, 6 },
         new int[] { 0, 4, 8 },
         new int[] { 2, 5, 8 },
         new int[] { 6, 4, 2},
         new int[] { 8, 4, 0 },
         new int[] {3, 4, 5},
-        new int[] {8,7,6},
+        new int[] {8, 7, 6},
         new int[] {5, 4, 3},
-        new int[] {6,7,8}
+        new int[] {6, 7, 8}
     };
 
 
@@ -201,11 +209,18 @@ public void CheckWinningConditionsAI()
                 UIManager.instance.endText.text = "A.I WON";
                 GameManager.instance.IncreasePlayerScore(0);
                 UIManager.instance.UpdateAIScoreUI();
+                UIManager.instance.UpdatePlayerScoreUI();
                 GameManager.instance.IncreaseAIScore(5);
                 isAIWinning = false;
                 PlayerPrefsManager.instance.SaveData();
+                Invoke("ReloadScene", 2f);
                 return;
         }
       }
    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene("TicTacToe");
+    }
 }
