@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 
 public class GameController : MonoBehaviour
@@ -13,7 +15,13 @@ public class GameController : MonoBehaviour
     public Sprite xIcon;
     public Sprite oIcon;
     public List<GameObject> buttons = new List<GameObject>();
+    public List<int> ids = new List<int>();
+    public List<int> aiIds = new List<int>();
+    public bool isPlayerWinning;
+    public bool isAIWinning;
 
+    [SerializeField] private GameObject gamePanel;
+    [SerializeField] private TextMeshProUGUI endText;
     private void Awake()
     {
         if (instance == null)
@@ -28,6 +36,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        endText.gameObject.SetActive(false);
         xButton.onClick.AddListener(XButton);
         oButton.onClick.AddListener(OButton);
         foreach (var button in buttons)
@@ -55,6 +64,23 @@ public class GameController : MonoBehaviour
         xButton.gameObject.SetActive(false);
         oButton.gameObject.SetActive(false);
     }
+    private void Update()
+    {
+        CheckWinningConditionsPlayer();
+        CheckWinningConditionsAI();
+
+        if (buttons.Count == 0)
+        {
+            if(!isAIWinning && !isPlayerWinning)
+            {
+                Debug.Log("Draw");
+                gamePanel.SetActive(false);
+                endText.gameObject.SetActive(true);
+                endText.text = "PLAYER WON";
+            }
+        }
+    }
+
 
     public void AITurn()
     {
@@ -65,6 +91,7 @@ public class GameController : MonoBehaviour
             ButtonController buttonController = randomButton.GetComponent<ButtonController>();
             Debug.Log("AI Played");
             randomButton.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            aiIds.Add(randomButton.GetComponent<ButtonController>().id);
             if (buttonController != null && buttonController.isFree)
             {
                 if (isXbutton) 
@@ -82,4 +109,80 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+    public void CheckWinningConditionsPlayer()
+    {
+        List<int[]> winningSequencesPlayer = new List<int[]>
+    {
+        new int[] { 0, 1, 2 },
+        new int[] { 0, 3, 6 },
+        new int[] { 0, 4, 8 },
+        new int[] { 2, 5, 8 },
+        new int[] { 8, 4, 0 }
+    };
+
+      
+        foreach (int[] sequence in winningSequencesPlayer)
+        {
+
+            isPlayerWinning = true;
+            
+            foreach (int id in sequence)
+            {
+                if (!ids.Contains(id))
+                {
+                    isPlayerWinning = false;
+                    break;
+                }
+            }
+
+           
+            if (isPlayerWinning)
+            {
+                Debug.Log("Player Won");
+                gamePanel.SetActive(false);
+                endText.gameObject.SetActive(true);
+                endText.text = "PLAYER WON";
+                return;
+            }
+        }
+    }
+  
+public void CheckWinningConditionsAI()
+{
+    List<int[]> winningSequencesAI = new List<int[]>
+    {
+        new int[] { 0, 1, 2 },
+        new int[] { 0, 3, 6 },
+        new int[] { 0, 4, 8 },
+        new int[] { 2, 5, 8 },
+        new int[] { 8, 4, 0 }
+    };
+
+
+    foreach (int[] sequence in winningSequencesAI)
+    {
+
+        isAIWinning = true;
+
+        foreach (int id in sequence)
+        {
+            if (!aiIds.Contains(id))
+            {
+                isAIWinning = false;
+                break;
+            }
+        }
+
+
+        if (isAIWinning)
+        {
+            Debug.Log("AI Won");
+                gamePanel.SetActive(false);
+                endText.gameObject.SetActive(true);
+                endText.text = "AI WON";
+            return;
+        }
+    }
 }
+  }
