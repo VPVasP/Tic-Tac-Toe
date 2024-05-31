@@ -17,8 +17,7 @@ public class ButtonController : MonoBehaviour
 
     private void PlayerClick()
     {
-       
-        if (isFree)
+        if (GameController.instance.isPlayerTurn && isFree)
         {
             AudioManager.instance.PlayPlayerSoundEffect();
             if (GameController.instance.isXbutton)
@@ -28,6 +27,7 @@ public class ButtonController : MonoBehaviour
                 PlayerMove(GameController.instance.xIcon);
                 GameController.instance.isXbutton = true; 
                 GameController.instance.is0Button = false;
+                GameController.instance.isPlayerTurn = false;
                 StartCoroutine(AIMoveAfterDelay());
             
             }
@@ -38,6 +38,7 @@ public class ButtonController : MonoBehaviour
                 PlayerMove(GameController.instance.oIcon);
                 GameController.instance.is0Button = true;  
                 GameController.instance.isXbutton = false;
+                GameController.instance.isPlayerTurn = false;
                 StartCoroutine(AIMoveAfterDelay());
             }
         }

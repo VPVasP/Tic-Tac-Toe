@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public List<int> aiIds = new List<int>();
     public bool isPlayerWinning;
     public bool isAIWinning;
+    public bool isPlayerTurn = false;
     private void Awake()
     {
         if (instance == null)
@@ -35,6 +36,7 @@ public class GameController : MonoBehaviour
         UIManager.instance.ShowStartUI();
         xButton.onClick.AddListener(XButton);
         oButton.onClick.AddListener(OButton);
+        isPlayerTurn = true;
         foreach (var button in buttons)
         {
             button.GetComponent<Image>().color = new Color(1, 1, 1, 0);
@@ -86,6 +88,7 @@ public class GameController : MonoBehaviour
 
     public void AITurn()
     {
+        isPlayerTurn = false;
         if (buttons.Count > 0)
         {
             int randomIndex = Random.Range(0, buttons.Count);
@@ -109,6 +112,7 @@ public class GameController : MonoBehaviour
                     isXbutton = false;
                 }
             }
+            isPlayerTurn = true;
         }
     }
 

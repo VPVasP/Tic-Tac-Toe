@@ -2055,6 +2055,7 @@ GameObject:
   - component: {fileID: 1457644241}
   - component: {fileID: 1457644240}
   - component: {fileID: 1457644242}
+  - component: {fileID: 1457644243}
   m_Layer: 0
   m_Name: GameManagerModel
   m_TagString: Untagged
@@ -2094,6 +2095,7 @@ MonoBehaviour:
   aiIds: 
   isPlayerWinning: 1
   isAIWinning: 1
+  isPlayerTurn: 0
 --- !u!114 &1457644238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2108,6 +2110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerScore: 0
   AIScore: 0
+  playerScoreUpdated: 0
+  AiScoreUpdated: 0
 --- !u!4 &1457644239
 Transform:
   m_ObjectHideFlags: 0
@@ -2250,6 +2254,18 @@ MonoBehaviour:
   playerScoreText: {fileID: 682375670}
   aiScoreText: {fileID: 880508136}
   endText: {fileID: 1673813915}
+--- !u!114 &1457644243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457644236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cc1d330b3e36424fa52cc91a5681ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1545222464
 GameObject:
   m_ObjectHideFlags: 0
