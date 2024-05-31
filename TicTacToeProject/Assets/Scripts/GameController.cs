@@ -59,19 +59,19 @@ public class GameController : MonoBehaviour
             int randomIndex = Random.Range(0, buttons.Count);
             GameObject randomButton = buttons[randomIndex];
             ButtonController buttonController = randomButton.GetComponent<ButtonController>();
-
+            Debug.Log("AI Played");
             if (buttonController != null && buttonController.isFree)
             {
-                if (isXbutton)  
+                if (isXbutton) 
                 {
                     buttonController.AIMove(oIcon);
-                    isXbutton = true; 
+                    isXbutton = true;
                     is0Button = false;
                 }
-                else if (is0Button)  
+                else if (is0Button) 
                 {
                     buttonController.AIMove(xIcon);
-                    is0Button = true; 
+                    is0Button = true;
                     isXbutton = false;
                 }
             }

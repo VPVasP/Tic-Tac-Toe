@@ -8,7 +8,6 @@ public class ButtonController : MonoBehaviour
     public int id;
     private Button button;
     public bool isFree;
-
     private void Start()
     {
         button = GetComponent<Button>();
@@ -23,20 +22,25 @@ public class ButtonController : MonoBehaviour
             if (GameController.instance.isXbutton)
             {
                 PlayerMove(GameController.instance.xIcon);
-                GameController.instance.isXbutton = false; 
-                GameController.instance.is0Button = true;
-                GameController.instance.AITurn();
+                GameController.instance.isXbutton = true; 
+                GameController.instance.is0Button = false;
+                StartCoroutine(AIMoveAfterDelay());
+            
             }
             else if (GameController.instance.is0Button)
             {
                 PlayerMove(GameController.instance.oIcon);
-                GameController.instance.is0Button = false;  
-                GameController.instance.isXbutton = true;
-                GameController.instance.AITurn();
+                GameController.instance.is0Button = true;  
+                GameController.instance.isXbutton = false;
+                StartCoroutine(AIMoveAfterDelay());
             }
         }
     }
-
+    private IEnumerator AIMoveAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        GameController.instance.AITurn();
+    }
     public void PlayerMove(Sprite icon)
     {
         Debug.Log(id);
@@ -45,7 +49,7 @@ public class ButtonController : MonoBehaviour
         isFree = false;
         GameController.instance.buttons.Remove(this.gameObject);
     }
-
+    
     public void AIMove(Sprite icon)
     {
         if (isFree)
@@ -55,5 +59,6 @@ public class ButtonController : MonoBehaviour
             isFree = false;
             GameController.instance.buttons.Remove(this.gameObject);
         }
+
     }
 }
