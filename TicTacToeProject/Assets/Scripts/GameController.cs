@@ -14,11 +14,16 @@ public class GameController : MonoBehaviour
     public bool is0Button;
     public Sprite xIcon;
     public Sprite oIcon;
+    //list of the buttons
     public List<GameObject> buttons = new List<GameObject>();
+    //list of the player ids
     public List<int> ids = new List<int>();
+    //list of the A.I ids
     public List<int> aiIds = new List<int>();
+    //flags to check if the player or AI is winning
     public bool isPlayerWinning;
     public bool isAIWinning;
+    //flag that checks if its the players turn
     public bool isPlayerTurn = false;
     private void Awake()
     {
@@ -38,12 +43,14 @@ public class GameController : MonoBehaviour
         xButton.onClick.AddListener(XButton);
         oButton.onClick.AddListener(OButton);
         isPlayerTurn = true;
+        //set the color A of the buttons to be 0
         foreach (var button in buttons)
         {
             button.GetComponent<Image>().color = new Color(1, 1, 1, 0);
         }
     }
 
+    //x button Choice Function
     public void XButton()
     {
         isXbutton = true;
@@ -55,6 +62,7 @@ public class GameController : MonoBehaviour
         UIManager.instance.EnableGameView();
     }
 
+    //o button Choice Function
     public void OButton()
     {
         is0Button = true;
@@ -67,13 +75,17 @@ public class GameController : MonoBehaviour
     }
     private void Update()
     {
+
         CheckWinningConditionsPlayer();
         CheckWinningConditionsAI();
 
+        //if no buttons are left
         if (buttons.Count == 0)
         {
+            //if the ai or the player is winning then it is a draw
             if(!isAIWinning && !isPlayerWinning)
             {
+                //Update the UI,increase score and save the data
                 Debug.Log("Draw");
                 UIManager.instance.EndGameView();
                 UIManager.instance.endText.text = "DRAW";
@@ -82,7 +94,9 @@ public class GameController : MonoBehaviour
                 UIManager.instance.UpdatePlayerScoreUI();
                 UIManager.instance.UpdateAIScoreUI();
                 PlayerPrefsManager.instance.SaveData();
-                Invoke("ReloadScene", 2f);
+
+                //reload the scene after 5 seconds
+                Invoke("ReloadScene", 5f);
             }
         }
     }
@@ -91,22 +105,29 @@ public class GameController : MonoBehaviour
     public void AITurn()
     {
         isPlayerTurn = false;
+
         if (buttons.Count > 0)
         {
+            //pick any random buttons from the buttons list 
             int randomIndex = Random.Range(0, buttons.Count);
             GameObject randomButton = buttons[randomIndex];
             ButtonController buttonController = randomButton.GetComponent<ButtonController>();
             Debug.Log("AI Played");
             randomButton.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            //add it to the A.I Lists ID
             aiIds.Add(randomButton.GetComponent<ButtonController>().id);
+
+
             if (buttonController != null && buttonController.isFree)
             {
+                //if the player choice is x button then make the AI play the O Icon
                 if (isXbutton) 
                 {
                     buttonController.AIMove(oIcon);
                     isXbutton = true;
                     is0Button = false;
                 }
+                //if the player choice is O button then make the AI play the X Icon
                 else if (is0Button) 
                 {
                     buttonController.AIMove(xIcon);
@@ -118,8 +139,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+
+    //function that checks the winning conditions for the player
     public void CheckWinningConditionsPlayer()
     {
+        //list of the possible winning combinations for the player
         List<int[]> winningSequencesPlayer = new List<int[]>
     {
         new int[] { 0, 1, 2 },
@@ -142,6 +166,7 @@ public class GameController : MonoBehaviour
 
             isPlayerWinning = true;
             
+
             foreach (int id in sequence)
             {
                 if (!ids.Contains(id))
@@ -151,7 +176,7 @@ public class GameController : MonoBehaviour
                 }
             }
 
-           
+            //if player has won update the UI, Scores and Save the Data
             if (isPlayerWinning)
             {
                 Debug.Log("Player Won");
@@ -162,14 +187,16 @@ public class GameController : MonoBehaviour
                 UIManager.instance.UpdateAIScoreUI();
                 GameManager.instance.IncreaseAIScore(0);
                 PlayerPrefsManager.instance.SaveData();
-                Invoke("ReloadScene", 2f);
+                Invoke("ReloadScene", 5f);
                 return;
             }
         }
     }
-  
-public void CheckWinningConditionsAI()
+
+    //function that checks the winning conditions for the player
+    public void CheckWinningConditionsAI()
 {
+        //list of the possible winning combinations for the player
         List<int[]> winningSequencesAI = new List<int[]>
     {
         new int[] { 0, 1, 2 },
@@ -194,6 +221,7 @@ public void CheckWinningConditionsAI()
 
         foreach (int id in sequence)
         {
+         
             if (!aiIds.Contains(id))
             {
                 isAIWinning = false;
@@ -201,10 +229,10 @@ public void CheckWinningConditionsAI()
             }
         }
 
-
+        //if ai has won update the UI, Scores and Save the Data
         if (isAIWinning)
         {
-            Debug.Log("AI Won");
+                Debug.Log("AI Won");
                 UIManager.instance.EndGameView();
                 UIManager.instance.endText.text = "A.I WON";
                 GameManager.instance.IncreasePlayerScore(0);
@@ -213,12 +241,12 @@ public void CheckWinningConditionsAI()
                 GameManager.instance.IncreaseAIScore(5);
                 isAIWinning = false;
                 PlayerPrefsManager.instance.SaveData();
-                Invoke("ReloadScene", 2f);
+                Invoke("ReloadScene", 5f);
                 return;
         }
       }
    }
-
+    //Reload the Game Scene
     public void ReloadScene()
     {
         SceneManager.LoadScene("TicTacToe");

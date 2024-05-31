@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    //function that increases the player's score
     public void IncreasePlayerScore(int scoreAmount)
     {
         if (!playerScoreUpdated)
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
             playerScoreUpdated = true;
         }
     }
+    //function that increases the AI.'s score
     public void IncreaseAIScore(int scoreAmount) {
 
         if (!AiScoreUpdated)

@@ -23,11 +23,13 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    // function to play the playerSoundEffect
     public void PlayPlayerSoundEffect()
     {
         aud.clip = playerSoundEffect;
         aud.Play();
     }
+    // function to play the aiSoundEffect
     public void PlayAISoundEffect()
     {
         aud.clip = aiSoundEffect;
