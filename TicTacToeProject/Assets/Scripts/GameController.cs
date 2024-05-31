@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
 
 
 public class GameController : MonoBehaviour
@@ -79,6 +78,7 @@ public class GameController : MonoBehaviour
                 GameManager.instance.IncreaseAIScore(0);
                 UIManager.instance.UpdatePlayerScoreUI();
                 UIManager.instance.UpdateAIScoreUI();
+                PlayerPrefsManager.instance.SaveData();
             }
         }
     }
@@ -121,7 +121,11 @@ public class GameController : MonoBehaviour
         new int[] { 0, 4, 8 },
         new int[] { 2, 5, 8 },
         new int[] { 6, 4, 2},
-        new int[] { 8, 4, 0 }
+        new int[] { 8, 4, 0 },
+        new int[] {3, 4, 5},
+        new int[] {8,7,6},
+        new int[] {5, 4, 3},
+        new int[] {6,7,8}
     };
 
       
@@ -148,6 +152,7 @@ public class GameController : MonoBehaviour
                 GameManager.instance.IncreasePlayerScore(5);
                 UIManager.instance.UpdatePlayerScoreUI();
                 GameManager.instance.IncreaseAIScore(0);
+                PlayerPrefsManager.instance.SaveData();
                 return;
             }
         }
@@ -155,14 +160,18 @@ public class GameController : MonoBehaviour
   
 public void CheckWinningConditionsAI()
 {
-    List<int[]> winningSequencesAI = new List<int[]>
+        List<int[]> winningSequencesAI = new List<int[]>
     {
-        new int[] { 0, 1, 2 },
+          new int[] { 0, 1, 2 },
         new int[] { 0, 3, 6 },
         new int[] { 0, 4, 8 },
         new int[] { 2, 5, 8 },
         new int[] { 6, 4, 2},
-        new int[] { 8, 4, 0 }
+        new int[] { 8, 4, 0 },
+        new int[] {3, 4, 5},
+        new int[] {8,7,6},
+        new int[] {5, 4, 3},
+        new int[] {6,7,8}
     };
 
 
@@ -189,6 +198,8 @@ public void CheckWinningConditionsAI()
                 GameManager.instance.IncreasePlayerScore(0);
                 UIManager.instance.UpdateAIScoreUI();
                 GameManager.instance.IncreaseAIScore(5);
+                isAIWinning = false;
+                PlayerPrefsManager.instance.SaveData();
                 return;
         }
       }

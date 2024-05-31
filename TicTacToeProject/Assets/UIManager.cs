@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
         chooseLetterText.gameObject.SetActive(true);
         gameView.SetActive(false);
         endText.gameObject.SetActive(false);
+        playerScoreText.gameObject.SetActive(false);
+        aiScoreText.gameObject.SetActive(false);
     }
     public void EnableGameView()
     {
@@ -33,13 +35,15 @@ public class UIManager : MonoBehaviour
     {
         endText.gameObject.SetActive(true);
         gameView.SetActive(false);
+        playerScoreText.gameObject.SetActive(true);
+        aiScoreText.gameObject.SetActive(true);
     }
     public void UpdatePlayerScoreUI()
     {
-        playerScoreText.text = GameManager.instance.playerScore.ToString();
+        playerScoreText.text ="Player Score "+ GameManager.instance.playerScore.ToString();
     }
     public void UpdateAIScoreUI()
     {
-        aiScoreText.text = GameManager.instance.AIScore.ToString();
+        aiScoreText.text = "A.I Score " + GameManager.instance.AIScore.ToString();
     }
 }

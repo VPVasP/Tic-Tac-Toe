@@ -5,8 +5,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public int playerScore;
-    public int AIScore;
+    public int playerScore = 0;
+    public int AIScore = 0;
+    [SerializeField] private bool playerScoreUpdated, AiScoreUpdated;
     private void Awake()
     {
         if (instance == null)
@@ -20,10 +21,18 @@ public class GameManager : MonoBehaviour
     }
     public void IncreasePlayerScore(int scoreAmount)
     {
-        playerScore += scoreAmount;
+        if (!playerScoreUpdated)
+        {
+            playerScore += scoreAmount;
+            playerScoreUpdated = true;
+        }
     }
-    public void IncreaseAIScore(int scoreAmount)
-    {
-        AIScore += scoreAmount;
+    public void IncreaseAIScore(int scoreAmount) {
+
+        if (!AiScoreUpdated)
+        {
+            AIScore += scoreAmount;
+            AiScoreUpdated = true;
+        }
     }
 }
