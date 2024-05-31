@@ -19,9 +19,6 @@ public class GameController : MonoBehaviour
     public List<int> aiIds = new List<int>();
     public bool isPlayerWinning;
     public bool isAIWinning;
-
-    [SerializeField] private GameObject gamePanel;
-    [SerializeField] private TextMeshProUGUI endText;
     private void Awake()
     {
         if (instance == null)
@@ -36,7 +33,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        endText.gameObject.SetActive(false);
+        UIManager.instance.ShowStartUI();
         xButton.onClick.AddListener(XButton);
         oButton.onClick.AddListener(OButton);
         foreach (var button in buttons)
@@ -53,6 +50,7 @@ public class GameController : MonoBehaviour
         oButton.interactable = false;
         xButton.gameObject.SetActive(false);
         oButton.gameObject.SetActive(false);
+        UIManager.instance.EnableGameView();
     }
 
     public void OButton()
@@ -63,6 +61,7 @@ public class GameController : MonoBehaviour
         oButton.interactable = false;
         xButton.gameObject.SetActive(false);
         oButton.gameObject.SetActive(false);
+        UIManager.instance.EnableGameView();
     }
     private void Update()
     {
@@ -74,9 +73,12 @@ public class GameController : MonoBehaviour
             if(!isAIWinning && !isPlayerWinning)
             {
                 Debug.Log("Draw");
-                gamePanel.SetActive(false);
-                endText.gameObject.SetActive(true);
-                endText.text = "PLAYER WON";
+                UIManager.instance.EndGameView();
+                UIManager.instance.endText.text = "DRAW";
+                GameManager.instance.IncreasePlayerScore(0);
+                GameManager.instance.IncreaseAIScore(0);
+                UIManager.instance.UpdatePlayerScoreUI();
+                UIManager.instance.UpdateAIScoreUI();
             }
         }
     }
@@ -118,6 +120,7 @@ public class GameController : MonoBehaviour
         new int[] { 0, 3, 6 },
         new int[] { 0, 4, 8 },
         new int[] { 2, 5, 8 },
+        new int[] { 6, 4, 2},
         new int[] { 8, 4, 0 }
     };
 
@@ -140,9 +143,11 @@ public class GameController : MonoBehaviour
             if (isPlayerWinning)
             {
                 Debug.Log("Player Won");
-                gamePanel.SetActive(false);
-                endText.gameObject.SetActive(true);
-                endText.text = "PLAYER WON";
+                UIManager.instance.EndGameView();
+                UIManager.instance.endText.text = "PLAYER WON";
+                GameManager.instance.IncreasePlayerScore(5);
+                UIManager.instance.UpdatePlayerScoreUI();
+                GameManager.instance.IncreaseAIScore(0);
                 return;
             }
         }
@@ -156,6 +161,7 @@ public void CheckWinningConditionsAI()
         new int[] { 0, 3, 6 },
         new int[] { 0, 4, 8 },
         new int[] { 2, 5, 8 },
+        new int[] { 6, 4, 2},
         new int[] { 8, 4, 0 }
     };
 
@@ -178,11 +184,13 @@ public void CheckWinningConditionsAI()
         if (isAIWinning)
         {
             Debug.Log("AI Won");
-                gamePanel.SetActive(false);
-                endText.gameObject.SetActive(true);
-                endText.text = "AI WON";
-            return;
+                UIManager.instance.EndGameView();
+                UIManager.instance.endText.text = "A.I WON";
+                GameManager.instance.IncreasePlayerScore(0);
+                UIManager.instance.UpdateAIScoreUI();
+                GameManager.instance.IncreaseAIScore(5);
+                return;
         }
-    }
+      }
+   }
 }
-  }

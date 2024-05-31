@@ -17,8 +17,10 @@ public class ButtonController : MonoBehaviour
 
     private void PlayerClick()
     {
+       
         if (isFree)
         {
+            AudioManager.instance.PlayPlayerSoundEffect();
             if (GameController.instance.isXbutton)
             {
                 GameController.instance.ids.Add(id);
@@ -56,12 +58,14 @@ public class ButtonController : MonoBehaviour
     
     public void AIMove(Sprite icon)
     {
+      
         if (isFree)
         {
             button.image.sprite = icon;
             button.interactable = false;
             isFree = false;
             GameController.instance.buttons.Remove(this.gameObject);
+            AudioManager.instance.PlayAISoundEffect();
         }
 
     }

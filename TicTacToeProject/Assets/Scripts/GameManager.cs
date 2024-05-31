@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public int score;
+    public int playerScore;
+    public int AIScore;
     private void Awake()
     {
         if (instance == null)
@@ -17,8 +18,12 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void IncreaseScore(int scoreAmount)
+    public void IncreasePlayerScore(int scoreAmount)
     {
-        score += scoreAmount;
+        playerScore += scoreAmount;
+    }
+    public void IncreaseAIScore(int scoreAmount)
+    {
+        AIScore += scoreAmount;
     }
 }
